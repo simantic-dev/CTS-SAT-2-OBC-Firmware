@@ -1,7 +1,52 @@
 # CTS-SAT-2-OBC-Firmware
 
 <!-- simantic-banner -->
-> **Simulate your firmware with no hardware.** [Simantic](https://simantic.com) simulates the whole board, peripherals, sensors and buses included. Try it free at **[simantic.com](https://simantic.com)**, or run it locally: `curl -fsSL https://simantic.com/install | sh`
+> **Run this firmware with no hardware.** [Simantic](https://simantic.com) simulates the whole board, peripherals, sensors and buses included. Try it free at **[simantic.com](https://simantic.com)**, or run it locally: `curl -fsSL https://simantic.com/install | sh`
+
+## This fork: the flight firmware on a simulated STM32L4R5ZI
+
+Simantic's fork of CalgaryToSpace's CTS-SAT-2 OBC firmware. The upstream firmware at commit `0515f86` runs
+unmodified (no firmware or source file is changed) on a simulated STM32L4R5ZI and is commanded over its umbilical UART
+(USART2) the way a ground station does. No board, no bench. Everything is in [`sim/`](sim/).
+
+```
+cd sim && ./run.sh      # needs `sim` on PATH; the plot needs python3 + matplotlib
+```
+
+![telecommands and reply latency](sim/timeline.png)
+
+**Measured, from a real run** (`sim` 0.10.4, pyrite engine, [`sim/run.log`](sim/run.log), about 4.3 to 5 s of wall clock
+for 15 s of virtual time):
+
+- Boots to `USART2 ready. Buffered RX active.` at 1.4 ms, then prints `HEARTBEAT` every 0.5 s: 30 in 15 s.
+- 11 telecommands sent 1 s apart from t = 2 s by [`sim/ground_peer.py`](sim/ground_peer.py); all answered, in order:
+  `hello_world`, `get_obc_info` (version 0.1.0, commit `0515f86...`), `get_config`/`set_config` (`heartbeat_ms = U32(1000)`;
+  `config_demo_variable1` set to and read back as `U32(456)`), `get_unix_time` (`ERR: Unix time not synchronized`, then
+  after `set_unix_time` it answers `Unix time: 1791045406004 ms` 1 s later), `get_sys_uptime` (`11067 ms` at 11.07 s),
+  and an unknown command (`ERR: Unknown telecommand`).
+- No `HardFault` or panic. `run.sh` checks these strings and exits non-zero if one is missing.
+- The reply latency in the plot (11 ms growing to 73 ms) is not a fixed cost: the firmware polls for telecommands once per
+  heartbeat, and the 0.5008 s heartbeat period drifts against the ground peer's exact 1 s cadence.
+
+**What is attached:** only the ground station on USART2 (circular RX DMA on DMA1 channel 6). This firmware revision
+drives nothing else (a GPIOC PC7 LED, USART2, SysTick and the DWT cycle counter), so no I2C, SPI or other peers are
+needed and none are invented. The scenario is [`sim/scenario.yaml`](sim/scenario.yaml); the ELF is built from upstream
+without changes (provenance and build recipe: Simantic's `sim-fixtures`, `tests/stm/nucleo-l4r5zi/cts-sat-2-obc/`).
+
+**Stubbed or not covered:** debug text goes to RTT, which `sim` does not capture, so only the UART console is seen. No
+real hardware comparison has been done: everything here is simulator output. The firmware has no radio, ADCS, EPS or
+storage code at this commit, so none of that is simulated.
+
+**Findings** (firmware behaviour, not changed here; no simulator model bug found, no pyrite issue filed):
+- `System reset cause: Brown Out` is printed on power-on: both BORRSTF and PINRSTF are set in RCC_CSR after reset and
+  the firmware tests BORRSTF first.
+- `get_timestamp` given a real NovAtel `#TIMEA` log answers `ERR: Too many arguments provided`, because the argument
+  parser splits on the commas inside the log.
+- `set_config` takes `u32(456)`, not `u32:456`.
+
+Everything below is CalgaryToSpace's README.
+
+---
 
 Firmware for the CTS-SAT-2 mission. Runs on the STM32L4R5ZI-based Onboard Computer. 
 

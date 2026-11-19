@@ -1,0 +1,56 @@
+[0.001426s] (usart2 → ground) USART2 ready. Buffered RX active.
+[0.004461s] (usart2 → ground) System reset cause: Brown Out
+[0.007149s] (usart2 → ground) HEARTBEAT
+[0.507998s] (usart2 → ground) HEARTBEAT
+[1.008851s] (usart2 → ground) HEARTBEAT
+[1.509704s] (usart2 → ground) HEARTBEAT
+[2.000000s] (usart2 ← ground) CTS2+hello_world()!
+[2.011012s] (usart2 → ground) HELLO WORLD
+[2.012139s] (usart2 → ground) HEARTBEAT
+[2.512994s] (usart2 → ground) HEARTBEAT
+[2.999990s] (usart2 ← ground) CTS2+get_obc_info()!
+[3.014367s] (usart2 → ground) Firmware Version: 0.1.0
+[3.016535s] (usart2 → ground) Build Timestamp (UNIX): 1794884523
+[3.019657s] (usart2 → ground) Commit Hash: 0515f868369790b7517db6b6191616c27b17233a
+[3.024426s] (usart2 → ground) HEARTBEAT
+[3.525281s] (usart2 → ground) HEARTBEAT
+[3.999990s] (usart2 ← ground) CTS2+get_config(heartbeat_ms)!
+[4.026904s] (usart2 → ground) Variable: heartbeat_ms = U32(1000)
+[4.030026s] (usart2 → ground) HEARTBEAT
+[4.530883s] (usart2 → ground) HEARTBEAT
+[4.999990s] (usart2 ← ground) CTS2+set_config(config_demo_variable1,u32(456))!
+[5.032901s] (usart2 → ground) Variable: config_demo_variable1 set to U32(456)
+[5.037150s] (usart2 → ground) HEARTBEAT
+[5.537994s] (usart2 → ground) HEARTBEAT
+[5.999990s] (usart2 ← ground) CTS2+get_config(config_demo_variable1)!
+[6.039760s] (usart2 → ground) Variable: config_demo_variable1 = U32(456)
+[6.043576s] (usart2 → ground) HEARTBEAT
+[6.544420s] (usart2 → ground) HEARTBEAT
+[7.000000s] (usart2 ← ground) CTS2+get_unix_time()!
+[7.045755s] (usart2 → ground) ERR: Unix time not synchronized
+[7.048617s] (usart2 → ground) HEARTBEAT
+[7.549462s] (usart2 → ground) HEARTBEAT
+[8.000000s] (usart2 ← ground) CTS2+set_unix_time(1791045405000)!
+[8.051106s] (usart2 → ground) Unix time synchronized
+[8.053187s] (usart2 → ground) HEARTBEAT
+[8.554032s] (usart2 → ground) HEARTBEAT
+[9.000000s] (usart2 ← ground) CTS2+get_unix_time()!
+[9.055396s] (usart2 → ground) Unix time: 1791045406004 ms
+[9.057911s] (usart2 → ground) HEARTBEAT
+[9.558757s] (usart2 → ground) HEARTBEAT
+[10.000000s] (usart2 ← ground) CTS2+get_timestamp(#TIMEA,USB1,0,50.5,FINESTEERING,2209,515163.000,02000020,9924,16809;VALID,-2.501488425e-09,6.133312031e-10,-17.99999999630,2026,10,3,16,36,45000,VALID*1100ad64)!
+[10.063714s] (usart2 → ground) ERR: Too many arguments provided
+[10.066663s] (usart2 → ground) HEARTBEAT
+[10.567509s] (usart2 → ground) HEARTBEAT
+[11.000000s] (usart2 ← ground) CTS2+get_sys_uptime()!
+[11.068882s] (usart2 → ground) System Uptime: 11067 ms
+[11.071050s] (usart2 → ground) HEARTBEAT
+[11.571896s] (usart2 → ground) HEARTBEAT
+[12.000000s] (usart2 ← ground) CTS2+no_such_command()!
+[12.073262s] (usart2 → ground) ERR: Unknown telecommand
+[12.075516s] (usart2 → ground) HEARTBEAT
+[12.576362s] (usart2 → ground) HEARTBEAT
+[13.077208s] (usart2 → ground) HEARTBEAT
+[13.578054s] (usart2 → ground) HEARTBEAT
+[14.078900s] (usart2 → ground) HEARTBEAT
+[14.579745s] (usart2 → ground) HEARTBEAT

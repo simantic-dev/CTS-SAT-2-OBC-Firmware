@@ -1,0 +1,12 @@
+# CTS-SAT-2 OBC firmware (unmodified, upstream 0515f86) on a simulated STM32L4R5ZI, commanded over the umbilical UART.
+# Run from this folder:  ./run.sh
+machines:
+  obc:
+    mcu: STM32L4R5ZI
+    elf: cts2_obc_firmware.elf
+    parts:
+      # USART2 (PD5 TX, PD6 RX, RX via DMA1 channel 6 circular)
+      - { name: ground, type: uart-device, script: ground_peer.py }
+media:
+  - { type: uart, connect: [obc.usart2, obc.ground] }
+timeout: 15
