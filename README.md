@@ -10,14 +10,15 @@ unmodified (no firmware or source file is changed) on a simulated STM32L4R5ZI an
 (USART2) the way a ground station does. No board, no bench. Everything is in [`sim/`](sim/).
 
 ```
-cd sim && ./run.sh      # needs `sim` on PATH; the plot needs python3 + matplotlib
+cd sim && ./run.sh      # needs `sim` on PATH; the PNG plot needs python3 + matplotlib
+python3 make_gif.py run.log timeline.gif 0.10.8     # the animation: pillow + ffmpeg
 ```
 
 ![telecommands and reply latency](sim/timeline.png)
 
 ![telecommands and reply latency, animated](sim/timeline.gif)
 
-*Re-run on `sim` 0.10.8 (build 64f89c38), 2026-11-25: 15 s of virtual time, 39 s of CPU time (about 2.6 s per virtual second on a loaded laptop); the same checks pass, 30 heartbeats, uptime reply `11068 ms`. Drawn from `sim/run.log` by `sim/make_gif.py`.*
+*Re-run on `sim` 0.10.8 (build 64f89c38), 2026-11-25: 15 s of virtual time, 39 s of CPU time (about 2.6 s per virtual second on a loaded laptop); the same checks pass, 30 heartbeats, uptime reply `11068 ms`. The animation is a ground-station view drawn from `sim/run.log` by `sim/make_gif.py`: each telecommand with the OBC's decoded reply and latency, the time-sync state and when it changed, and the firmware's own UART lines. Simulated on Simantic sim 0.10.8, virtual time, playback 1.00x.*
 
 **Measured, from a real run** (`sim` 0.10.4, pyrite engine, [`sim/run.log`](sim/run.log), about 4.3 to 5 s of wall clock
 for 15 s of virtual time):
