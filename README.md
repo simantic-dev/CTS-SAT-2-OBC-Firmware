@@ -2,7 +2,22 @@
 
 This is Simantic's fork of CalgaryToSpace's CTS-SAT-2 OBC firmware. It runs the firmware, unmodified, on a simulated
 STM32L4R5ZI and commands it over its umbilical UART the way the ground station does. No board, no bench. No firmware or
-source file in this fork is changed; only this README.
+source file in this fork is changed; only this README, `demo`, `media/` and the `sim/` helpers.
+
+![CTS-SAT-2 OBC firmware running on the simulated STM32L4R5: one decoded line per telecommand](media/cts-sat-2-demo.gif)
+
+**Run it** (needs `sim`: `curl -fsSL https://simantic.com/install | sh`; the firmware ELF is committed in `sim/`):
+
+```sh
+./demo          # the GIF above: boots the firmware, sends the ground telecommands, prints the replies
+sim/run.sh      # the same scenario as a PASS/FAIL check plus the timeline plot (needs matplotlib)
+```
+
+Every line in the GIF is text the unmodified firmware printed on USART2 in reply to a telecommand (`sim/view.py` only
+pairs each command with its reply and counts the `HEARTBEAT` lines). Nothing in it is a stand-in: this firmware revision
+has no sensor or peripheral reads, so there are no battery or temperature values to show. The only thing the peer
+supplies is the commands (and the fixed `#TIMEA` string in `get_timestamp`, which the firmware rejects with `ERR: Too many
+arguments provided`; that is its real reply).
 
 **What runs:** the ELF built from commit `0515f86` (`cargo build --release --target thumbv7em-none-eabihf`, rustc 1.96.1,
 `stm32l4xx-hal` fork as pinned by `Cargo.lock`) on Simantic's `sim` (pyrite engine, model `STM32L4R5ZI`). The scenario,
