@@ -1,10 +1,10 @@
 #!/bin/sh
-# Runs the CTS-SAT-2 OBC firmware (Rust, STM32L4R5) in the simulator, sends the ground telecommands over USART2 and prints
-# the firmware's replies, one line per telecommand (decoded by sim/view.py). Usage: ./demo
+# Runs the CTS-SAT-2 OBC firmware (Rust, STM32L4R5) in the simulator, sends the ground telecommands over USART2 and streams
+# the firmware console live (sim/view.py). Usage: ./demo
 # Needs `sim` on PATH (or SIM=/path/to/sim). sim/run.sh is the PASS/FAIL check and timeline plot.
 set -eu
 SIM="${SIM:-sim}"
 cd "$(dirname "$0")/sim"
 command -v "$SIM" >/dev/null || { echo "sim not found. Install it: curl -fsSL https://simantic.com/install | sh" >&2; exit 1; }
 "$SIM" run --scenario scenario.yaml --ascii usart2 --timeout "${1:-15}" 2>&1 | python3 view.py
-echo "done: ${1:-15} virtual s of CTS-SAT-2 OBC firmware, one line per telecommand"
+echo "done: ${1:-15} virtual s of CTS-SAT-2 OBC firmware, raw firmware console above"

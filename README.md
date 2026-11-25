@@ -13,11 +13,13 @@ source file in this fork is changed; only this README, `demo`, `media/` and the 
 sim/run.sh      # the same scenario as a PASS/FAIL check plus the timeline plot (needs matplotlib)
 ```
 
-Every line in the GIF is text the unmodified firmware printed on USART2 in reply to a telecommand (`sim/view.py` only
-pairs each command with its reply and counts the `HEARTBEAT` lines). Nothing in it is a stand-in: this firmware revision
-has no sensor or peripheral reads, so there are no battery or temperature values to show. The only thing the peer
-supplies is the commands (and the fixed `#TIMEA` string in `get_timestamp`, which the firmware rejects with `ERR: Too many
-arguments provided`; that is its real reply).
+The GIF is the firmware's whole console (USART2) streaming live, exactly as `sim` prints it, lines cut at 120 columns:
+boot banner and reset cause, a `HEARTBEAT` every 0.5 s, and each telecommand's reply next to the uplink bytes that
+triggered it. `sim/view.py` only drops the sim's banner and the ground peer's own log lines. This firmware prints little
+on its own (its `rprintln!` debug text goes to RTT, which `sim` does not capture), so most lines are heartbeats and
+replies; there are no sensor or battery values to show, and nothing is a stand-in except the commands the peer sends.
+The fixed `#TIMEA` string in `get_timestamp` is rejected by the firmware with `ERR: Too many arguments provided`; that
+is its real reply.
 
 **What runs:** the ELF built from commit `0515f86` (`cargo build --release --target thumbv7em-none-eabihf`, rustc 1.96.1,
 `stm32l4xx-hal` fork as pinned by `Cargo.lock`) on Simantic's `sim` (pyrite engine, model `STM32L4R5ZI`). The scenario,
