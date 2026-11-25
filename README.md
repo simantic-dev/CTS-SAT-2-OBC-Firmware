@@ -15,6 +15,10 @@ cd sim && ./run.sh      # needs `sim` on PATH; the plot needs python3 + matplotl
 
 ![telecommands and reply latency](sim/timeline.png)
 
+![telecommands and reply latency, animated](sim/timeline.gif)
+
+*Re-run on `sim` 0.10.8 (build 64f89c38), 2026-11-25: 15 s of virtual time, 39 s of CPU time (about 2.6 s per virtual second on a loaded laptop); the same checks pass, 30 heartbeats, uptime reply `11068 ms`. Drawn from `sim/run.log` by `sim/make_gif.py`.*
+
 **Measured, from a real run** (`sim` 0.10.4, pyrite engine, [`sim/run.log`](sim/run.log), about 4.3 to 5 s of wall clock
 for 15 s of virtual time):
 
